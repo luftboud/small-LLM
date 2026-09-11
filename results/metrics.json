@@ -1,0 +1,134 @@
+{
+  "generated_at": "2026-08-10 06:14 UTC",
+  "seed": 42,
+  "test_size": 0.2,
+  "cv_folds": 5,
+  "best_model": "logistic_regression",
+  "accuracy": 0.9722222222222222,
+  "macro_f1": 0.9709618874773139,
+  "confusion_matrix": [
+    [
+      12,
+      0,
+      0
+    ],
+    [
+      0,
+      14,
+      0
+    ],
+    [
+      0,
+      1,
+      9
+    ]
+  ],
+  "cv_mean_accuracy": 0.9833333333333332,
+  "cv_std_accuracy": 0.013608276348795441,
+  "models": {
+    "baseline": {
+      "accuracy": 0.3888888888888889,
+      "macro_f1": 0.18666666666666668,
+      "confusion_matrix": [
+        [
+          0,
+          12,
+          0
+        ],
+        [
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          10,
+          0
+        ]
+      ],
+      "cv_mean_accuracy": 0.3990476190476191,
+      "cv_std_accuracy": 0.015376356874047398
+    },
+    "logistic_regression": {
+      "accuracy": 0.9722222222222222,
+      "macro_f1": 0.9709618874773139,
+      "confusion_matrix": [
+        [
+          12,
+          0,
+          0
+        ],
+        [
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          1,
+          9
+        ]
+      ],
+      "cv_mean_accuracy": 0.9833333333333332,
+      "cv_std_accuracy": 0.013608276348795441
+    },
+    "random_forest": {
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "confusion_matrix": [
+        [
+          12,
+          0,
+          0
+        ],
+        [
+          0,
+          14,
+          0
+        ],
+        [
+          0,
+          0,
+          10
+        ]
+      ],
+      "cv_mean_accuracy": 0.9774603174603176,
+      "cv_std_accuracy": 0.021299434518521104
+    },
+    "svm_default": {
+      "accuracy": 0.6944444444444444,
+      "macro_f1": 0.5578078078078078,
+      "confusion_matrix": [
+        [
+          11,
+          0,
+          1
+        ],
+        [
+          0,
+          14,
+          0
+        ],
+        [
+          1,
+          9,
+          0
+        ]
+      ],
+      "cv_mean_accuracy": 0.6744444444444444,
+      "cv_std_accuracy": 0.039769428683323275
+    }
+  },
+  "env": {
+    "python_version": "3.13.14",
+    "platform": "macOS-26.3-arm64-arm-64bit-Mach-O",
+    "package_versions": {
+      "numpy": "2.5.2",
+      "pandas": "3.0.5",
+      "scikit-learn": "1.9.0",
+      "matplotlib": "3.11.1",
+      "joblib": "1.5.3"
+    },
+    "git_commit": "2006d1f"
+  }
+}

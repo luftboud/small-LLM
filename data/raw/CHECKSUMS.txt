@@ -1,0 +1,3 @@
+# sha256 checksums for files in data/raw/, so reproducibility can be checked
+# without the data itself being committed. Regenerate by rerunning this script.
+cd80158fad3d1e203d61dae42242620b02dd5f918e637b5f08381e39e7cf5204  wine.csv

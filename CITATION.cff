@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: >-
+  If you use this project, please cite it as below. If you use the underlying wine
+  dataset, please also see data/README.md for how to cite the original UCI source.
+title: "wine-origin-classifier"
+version: 0.1.0
+date-released: "2026-08-09"
+type: software
+license: MIT
+repository-code: "<https://github.com/ucu-ai-course/project-template>"
+authors:
+  - family-names: "<Your Last Name>"
+    given-names: "<Your First Name>"
+  - family-names: "<Teammate Last Name>"
+    given-names: "<Teammate First Name>"

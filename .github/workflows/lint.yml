@@ -1,0 +1,41 @@
+# Runs on every push and every pull request. This is the one CI workflow this template
+# ships, kept deliberately as a single example (no test/coverage/deploy workflows) —
+# it's cheap (no test data, no model training, just static analysis) and shows the
+# whole pattern: triggers, a runner, cached dependency install, a few commands. Add a
+# test.yml alongside it the same way once your project needs one — copy this file's
+# structure and swap the last steps for `pytest`.
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    # "runner" = the (free, GitHub-hosted) virtual machine this job executes on.
+    # ubuntu-latest is the cheapest and fastest option for pure-Python CI; only
+    # switch to macos/windows runners if you have OS-specific code to test, since
+    # those runners cost several times more of your CI minutes.
+    runs-on: ubuntu-latest
+    steps:
+      # A "step" is one command in the job. Steps run in order, top to bottom, and
+      # the whole job stops (and is reported red) the moment one of them fails.
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: "pip" # caches downloaded wheels between runs, saves ~20-30s per run
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: flake8
+        run: flake8 src/ scripts/ tests/ app/
+
+      - name: black --check
+        run: black --check src/ scripts/ tests/ app/
+
+      - name: isort --check
+        run: isort --check src/ scripts/ tests/ app/

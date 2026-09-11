@@ -1,0 +1,43 @@
+# Runs automatically before each commit once you've done `make setup` (which calls
+# `pre-commit install`). Keeps small, mechanical problems out of PRs so review time
+# goes to actual logic instead of "please run black".
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: check-added-large-files
+        # Catches an accidental `git add` of a data file or model checkpoint before
+        # it ever reaches a commit. 1000 KB, matching the "> 10 MB never in git" rule
+        # in data/README.md and models/README.md — small enough to still fail loud.
+        args: ["--maxkb=1000"]
+
+  - repo: https://github.com/psf/black
+    rev: 26.5.1
+    hooks:
+      - id: black
+        language_version: python3.13
+
+  - repo: https://github.com/pycqa/isort
+    rev: 8.0.1
+    hooks:
+      - id: isort
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.3.0
+    hooks:
+      - id: flake8
+
+  # Strips notebook outputs before commit. DISABLED by default: this course's convention
+  # (see notebooks/README.md) is to commit notebooks WITH their outputs, so reviewers can
+  # see plots/tables on GitHub without re-running anything. Enable this hook only if your
+  # team decides outputs cause more merge-conflict pain than they're worth — uncomment the
+  # block below and run `pre-commit install` again.
+  # - repo: https://github.com/kynan/nbstripout
+  #   rev: 0.9.1
+  #   hooks:
+  #     - id: nbstripout

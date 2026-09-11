@@ -1,0 +1,11 @@
+# Runtime dependencies, pinned for reproducibility.
+# Regenerate with `pip freeze` inside a fresh venv if you deliberately upgrade something —
+# don't hand-bump a single version without re-testing `make reproduce`.
+numpy==2.5.2
+pandas==3.0.5
+scikit-learn==1.9.0
+matplotlib==3.11.1
+joblib==1.5.3
+PyYAML==6.0.3
+streamlit==1.61.1
+huggingface_hub==1.27.0

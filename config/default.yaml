@@ -1,0 +1,39 @@
+# All the numbers and paths a run needs, in one place — nothing below should be
+# hardcoded in src/. Override any key from the CLI, e.g.:
+#   python -m wine_origin train --override model.random_forest.n_estimators=300
+
+seed: 42
+
+paths:
+  raw_data: data/raw/wine.csv
+  checksums: data/raw/CHECKSUMS.txt
+  model: models/model.joblib
+  metrics: results/metrics.json
+  confusion_matrix: results/figures/confusion_matrix.png
+  experiments_log: results/experiments.md
+
+split:
+  test_size: 0.2
+  stratify: true
+
+cv:
+  n_splits: 5
+
+model:
+  # Which model `train`/`predict` use by default. "logistic_regression" is the
+  # best-performing of the models we compared — see results/experiments.md.
+  active: logistic_regression
+  logistic_regression:
+    max_iter: 1000
+    C: 1.0
+  random_forest:
+    n_estimators: 200
+    max_depth: null
+
+logging:
+  level: INFO
+
+# Only used if you publish the model to Hugging Face Hub (see models/README.md).
+# Leave repo_id blank to disable the HF fallback in load_model().
+huggingface:
+  repo_id: ""
