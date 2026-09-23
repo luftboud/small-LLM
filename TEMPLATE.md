@@ -39,7 +39,7 @@ Do not put library code here — import from `src/`.
 Streamlit demo.
 
 ```bash
-python -m wine_origin train          # once, if models/ is empty
+python -m model_origin train          # once, if models/ is empty
 streamlit run app/streamlit_app.py   # http://localhost:8501
 ```
 
@@ -65,7 +65,7 @@ pytest
 `default.yaml`: seed, paths, split, model choice, Hugging Face repo id.
 
 ```bash
-python -m wine_origin train --override model.active=random_forest
+python -m model_origin train --override model.active=random_forest
 ```
 
 ### `data/`
@@ -122,7 +122,7 @@ source .venv/bin/activate
 # edit src/, config/, tests/
 pytest
 flake8 src/ scripts/ tests/ app/ && black src/ scripts/ tests/ app/ && isort src/ scripts/ tests/ app/
-python -m wine_origin train && python -m wine_origin evaluate
+python -m model_origin train && python -m model_origin evaluate
 ```
 
 Do not commit `.venv`, `.env`, `data/raw/*.csv`, or `models/*.joblib`.

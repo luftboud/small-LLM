@@ -4,7 +4,7 @@ missing values that sneak through, and train/test contamination.
 
 from __future__ import annotations
 
-from wine_origin.data import (
+from model_origin.data import (
     TARGET_COLUMN,
     materialize_raw_csv,
     split_features_target,

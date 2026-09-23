@@ -238,3 +238,5 @@ models/*
 
 # Env secrets
 .env
+
+.idea

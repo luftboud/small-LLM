@@ -10,13 +10,13 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from wine_origin.config import load_config
-from wine_origin.data import (
+from model_origin.config import load_config
+from model_origin.data import (
     materialize_raw_csv,
     split_features_target,
     train_test_split_stratified,
 )
-from wine_origin.models import build_active_model, build_baseline
+from model_origin.models import build_active_model, build_baseline
 
 
 def test_pipeline_trains_on_small_sample_and_predicts_right_shape(tmp_path):
