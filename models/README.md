@@ -44,7 +44,7 @@ def load_model(path, hf_repo_id=""):
     if hf_repo_id:
         from huggingface_hub import hf_hub_download
         return joblib.load(hf_hub_download(repo_id=hf_repo_id, filename="model.joblib"))
-    raise FileNotFoundError(...)  # tells the caller to run `python -m wine_origin train`
+    raise FileNotFoundError(...)  # tells the caller to run `python -m model_origin train`
 ```
 
 This is what lets `python -m wine_origin predict` and the Streamlit app work on a

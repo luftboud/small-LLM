@@ -1,4 +1,4 @@
-# 🍷 wine-origin-classifier
+# Quantization, Pruning, Knowledge Distillation of Ukrainian LLM
 
 Predicts which of 3 grape cultivars a wine came from, using 13 chemical measurements — a small, complete, fully-reproducible example project built from [`ucu-ai-course/project-template`](https://github.com/ucu-ai-course/project-template).
 

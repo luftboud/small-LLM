@@ -16,7 +16,7 @@ CLI commands.
 
 ```bash
 source .venv/bin/activate   # if you haven't already (created by `make setup`)
-python -m wine_origin train # only needed once, if models/model.joblib doesn't exist yet
+python -m model_origin train # only needed once, if models/model.joblib doesn't exist yet
 streamlit run app/streamlit_app.py
 ```
 

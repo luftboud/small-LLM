@@ -12,12 +12,3 @@ follows: once your project needs real feature engineering (derived columns, text
 vectorization, encoding), it goes here rather than inline in data.py or models.py,
 so data.py stays "get me clean rows" and models.py stays "get me a fitted estimator".
 """
-
-from __future__ import annotations
-
-import pandas as pd
-
-
-def identity_features(X: pd.DataFrame) -> pd.DataFrame:
-    """Return features unchanged. Replace with real transformations if you add any."""
-    return X
