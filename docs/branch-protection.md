@@ -15,9 +15,9 @@ template does not inherit it; reapply the file there.
 - Required checks: `lint` and `conventions`.
 - `main` cannot be deleted and cannot be force-pushed.
 - History on `main` is linear.
-- The repository accepts rebase merges only. Squash and merge commits are off.
-  Those two switches are repository settings, stored next to the ruleset in the
-  same JSON file, because a ruleset cannot select the merge method.
+- The repository accepts rebase merges only. Squash and merge commits are off,
+  both in the repository settings and in the ruleset's `allowed_merge_methods`.
+  The repository settings are in the same JSON file, beside the ruleset.
 
 ## Reapply
 
