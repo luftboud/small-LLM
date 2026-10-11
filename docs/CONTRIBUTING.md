@@ -1,85 +1,102 @@
 # Contributing
 
-This document is what makes the methodology's "your work should be visible in your
-commit history" requirement concrete, instead of something you find out you violated
-after the fact.
+`main` stays releasable. Changes reach it through a branch and a rebase pull request.
+GitHub shows this file when a pull request is opened.
 
 ## Branches
 
-- `main` is always in a working state — anyone should be able to clone it and run
-  `make reproduce` successfully at any point in time.
-- All work happens on a branch: `feat/<short-name>` for new functionality,
-  `fix/<short-name>` for bug fixes, `exp/<short-name>` for experiments that might not
-  pan out. No direct pushes to `main` (see `docs/branch-protection.md` to enforce this
-  on GitHub, not just by agreement).
+Name every branch `type/short-kebab-case`.
+
+Allowed types: `feat`, `fix`, `docs`, `exp`, `refactor`, `test`, `chore`, `ci`.
+
+```
+feat/add-tokenizer
+fix/empty-test-split
+exp/int4-quantization
+ci/contribution-checks
+```
+
+The segment after `/` is lowercase words and digits joined by single hyphens.
+`main` is the protected branch. A local hook rejects commits made while it is
+checked out, and GitHub rejects a direct push, including from admins.
+Force-pushes and deleting `main` are rejected too.
 
 ## Pull requests
 
-Every change to `main` goes through a PR, and every PR gets at least one review from a
-teammate before merging. This isn't bureaucracy for its own sake: review is the main
-way the rest of the team finds out what you actually built, in enough detail to
-maintain it later — a standup update ("I finished the eval script") doesn't give
-anyone else the ability to debug that script next week; reading the diff does.
+Every change is a pull request into `main`.
 
-## Commits — Conventional Commits
+- At least one teammate approves before merge. A new commit dismisses that approval.
+- The branch is up to date with `main` before merge.
+- Merge method is rebase, so `main` stays a straight line of the branch's commits.
+- Two checks must pass: `lint` (flake8, black, isort) and `conventions`
+  (this file's branch and commit rules).
 
-Prefixes: `feat:`, `fix:`, `docs:`, `exp:`, `refactor:`, `test:`, `chore:`.
+The author of a pull request cannot approve it. Ask another collaborator.
 
-**The commit body explains *why*, not *what*** — the diff already shows what changed;
-the body is where you write down the reasoning that isn't visible from the code
-itself (why this approach, what you ruled out, what tradeoff you made).
+## Commits
 
-For `exp:` commits specifically, put the result in the body — that's what turns the
-git log into a second, lightweight experiment record alongside `results/experiments.md`:
+The first line is a [Conventional Commit](https://www.conventionalcommits.org/):
 
 ```
-exp: try RandomForest with 200 trees
+type: subject
+type(scope): subject
+```
 
-macro-F1 0.94 -> 0.96, CV std 0.02. Details: results/experiments.md
+Types match the branch types above. `scope` is optional and uses the same
+lowercase kebab-case as a branch name. The whole first line is ASCII and at most
+72 characters. Write the subject in English.
+
+The checker enforces that first line only. Use the body for the reasoning the
+diff cannot show: why this approach, what was ruled out, what tradeoff was made.
+Leave a blank line between the subject and the body.
+
+For `exp:` commits, put the result in the body so the git log stays a short
+experiment record:
+
+```
+exp: try int4 quantization on the student model
+
+macro-F1 0.81 -> 0.78 at about 4x smaller weights. Notes: results/experiments.md
 ```
 
 ### Before / after
 
 | Before | After |
 |---|---|
-| `update` | `fix: handle empty test split when a class has <5 samples` |
-| `fix bug` | `fix: stratify train/test split so rare classes aren't dropped entirely` |
-| `asdf` | `chore: remove unused import in evaluate.py` |
-| `final version FINAL` | `docs: fill in results table with run_experiment.py output` |
-| `changes` | `refactor: move confusion-matrix plotting out of cli.py into evaluate.py` |
+| `update` | `fix: handle an empty test split when a class has under 5 samples` |
+| `fix bug` | `fix: stratify the split so a rare class is not dropped` |
+| `asdf` | `chore: remove an unused import in evaluate.py` |
+| `final version FINAL` | `docs: fill the results table from the latest run` |
+| `changes` | `refactor: move plotting out of cli.py into evaluate.py` |
 
 ## Authorship
 
-- **Pair programming / shared work**: credit both people with a `Co-authored-by:`
-  trailer at the bottom of the commit message (GitHub adds both as authors on the
-  commit):
+- **Pair programming / shared work.** Credit the other person with a trailer at
+  the bottom of the message. GitHub records both people as authors:
 
   ```
   Co-authored-by: Name <email@example.com>
   ```
-- **AI-assisted commits**: the commit is made by a **human**, under their own name,
-  and that person should be able to explain every line in it — "the AI wrote it" is
-  not an explanation a reviewer will accept. If AI tooling produced a substantial part
-  of a change, add an `Assisted-by: <tool>` trailer to say so. Don't add the AI tool as
-  a `Co-authored-by:` — that implies an accountable collaborator, which a tool isn't;
-  the human who ran it and reviewed the output is the author.
-- **Even contribution is a pattern across the whole semester, not a last-week fix.**
-  Rewriting history to look evenly distributed right before submission is visible
-  (timestamps, force-push history if the remote allows it) and defeats the actual
-  point, which is that everyone was meaningfully involved throughout.
 
-## Rhythm
+- **AI-assisted commits.** A human makes the commit under their own name and can
+  explain every line. If a tool produced a substantial part of the change, add
+  `Assisted-by: <tool>`. Do not list the tool as `Co-authored-by:`; that trailer
+  is for an accountable collaborator. The person who ran the tool and reviewed
+  the output is the author.
 
-- Commit at least once a week, per person. A single commit the night before a defense
-  is a flagged pattern in the methodology, not just a stylistic preference — it reads
-  as work that wasn't actually spread across the semester.
-- Use GitHub Issues + a Project board to plan work, with milestones matching the
-  course's dates (proposal, camera-ready, midterm, poster, final defense). For
-  experiment issues specifically, structure them as hypothesis → setup → result →
-  conclusion — the same shape as an `exp:` commit body above.
+## Local hooks
 
-## Access
+The same rules run before a commit, once the hooks are installed:
 
-Add your instructor(s) and mentor as repo collaborators early (see the root README's
-setup checklist) — reviews and issue assignments don't work for people who aren't
-collaborators on the repo yet.
+```bash
+pip install pre-commit
+pre-commit install
+```
+
+`pre-commit install` reads `default_install_hook_types` in
+`.pre-commit-config.yaml` and installs both the `pre-commit` and `commit-msg`
+hooks. Run it again if the hooks were installed before the commit-message hook
+existed. `--no-verify` skips the local hooks; the `conventions` check on the
+pull request still applies.
+
+Enforcement on GitHub is described in [`docs/branch-protection.md`](branch-protection.md).

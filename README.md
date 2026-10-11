@@ -133,6 +133,10 @@ Pre-commit hooks (installed by `make setup`) catch most of this before you even 
 > [!note] Why this matters: CI enforces it instead of "we agreed to"
 > "The team agreed to run black before committing" survives about one deadline-week skip before someone's code silently stops matching. A red `lint` check in CI is unambiguous, and — importantly — **a red CI check blocks merging**: reviewing a PR you can't tell has passed its own tests is a bad use of a reviewer's time, so don't merge over red CI, fix it first.
 
+## Contributing
+
+Work lands on `main` through a branch and a rebase pull request with one review. Branch names, commit subjects, and hook setup: [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md).
+
 ## AI usage
 
 | Tool | Used for | How the result was checked |

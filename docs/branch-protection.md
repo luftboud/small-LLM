@@ -1,31 +1,47 @@
-# Setting up branch protection on `main`
+# Branch protection on `main`
 
-Template repos don't carry branch-protection settings over to repos created from them
-via "Use this template" — this is a one-time setup step each team does for their own
-repository, early (ideally in your first week, not after someone accidentally pushes
-straight to `main`).
+`main` is protected by a GitHub repository ruleset, not only by agreement.
+The ruleset payload and the repository merge settings live in
+[`.github/rulesets/main.json`](../.github/rulesets/main.json). Applying that
+file requires admin on the repository. A fork or a repository created from a
+template does not inherit it; reapply the file there.
 
-## Steps
+## What is enforced
 
-1. On GitHub, go to your repo → **Settings → Branches**.
-2. Under **Branch protection rules**, click **Add rule** (or **Add branch ruleset**,
-   depending on which GitHub is currently showing you).
-3. Branch name pattern: `main`.
-4. Enable:
-   - **Require a pull request before merging**
-   - **Require approvals** — set to `1` (see `docs/CONTRIBUTING.md` for why review
-     matters beyond just gatekeeping: it's the main way teammates learn what the rest
-     of the team is doing)
-   - **Require status checks to pass before merging** — select the `lint` job from
-     `.github/workflows/lint.yml` (and any other workflow jobs you've since added)
-     once it's run at least once (GitHub only lists checks that have executed on this
-     repo before)
-5. Save.
+- Commits land on `main` only through a pull request. This includes admins:
+  the ruleset has no bypass actors.
+- At least one approving review. A push after that review dismisses it.
+- The pull request branch is up to date with `main`.
+- Required checks: `lint` and `conventions`.
+- `main` cannot be deleted and cannot be force-pushed.
+- History on `main` is linear.
+- The repository accepts rebase merges only. Squash and merge commits are off.
+  Those two switches are repository settings, stored next to the ruleset in the
+  same JSON file, because a ruleset cannot select the merge method.
 
-## Why bother for a 2-person team
+## Reapply
 
-It's tempting to skip this when the team is small and everyone trusts each other. The
-value isn't distrust — it's that review is where you find out what your teammate
-actually built, before it's merged and you're both depending on it. A rule that's
-"recommended, but easy to skip under deadline pressure" tends to get skipped exactly
-when it would have caught something. Turning it on costs five minutes once.
+From a checkout of this repository, with `gh` logged in as an admin:
+
+```bash
+# Create the ruleset. If "Protect main" already exists, use the PUT below
+# with its id instead of POST.
+jq '.ruleset' .github/rulesets/main.json \
+  | gh api --method POST repos/luftboud/small-LLM/rulesets --input -
+
+# Rebase merges only.
+jq '.repo_settings' .github/rulesets/main.json \
+  | gh api --method PATCH repos/luftboud/small-LLM --input -
+```
+
+To update an existing ruleset, replace `RULESET_ID`:
+
+```bash
+gh api repos/luftboud/small-LLM/rulesets --jq '.[] | {id, name}'
+
+jq '.ruleset' .github/rulesets/main.json \
+  | gh api --method PUT repos/luftboud/small-LLM/rulesets/RULESET_ID --input -
+```
+
+The `context` values under `required_status_checks` must match the check names
+GitHub reports (`gh pr checks`). `integration_id` 15368 is GitHub Actions.

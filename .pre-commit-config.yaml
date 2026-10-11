@@ -1,7 +1,23 @@
-# Runs automatically before each commit once you've done `make setup` (which calls
-# `pre-commit install`). Keeps small, mechanical problems out of PRs so review time
-# goes to actual logic instead of "please run black".
+# Install with `pre-commit install`. default_install_hook_types includes commit-msg,
+# so run that command again if the hooks were installed before the message check existed.
+# `--no-verify` skips these hooks; the conventions job on the pull request still runs.
+default_install_hook_types: [pre-commit, commit-msg]
 repos:
+  - repo: local
+    hooks:
+      - id: branch-name
+        name: branch name matches type/kebab-case
+        entry: python3 scripts/git_conventions.py branch
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
+      - id: commit-message
+        name: conventional commit subject
+        entry: python3 scripts/git_conventions.py message
+        language: system
+        stages: [commit-msg]
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
