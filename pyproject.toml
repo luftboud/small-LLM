@@ -3,9 +3,10 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "small-lmm"
+
+name = "small-llm"
 version = "0.1.0"
-description = "Quantization, Pruning, Knowledge Distillation of Ukrainian LLM"
+description = "Pruning, Quantization and Knowledge DIstilation of LLMs"
 requires-python = ">=3.11"
 readme = "README.md"
 license = { text = "MIT" }

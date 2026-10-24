@@ -3640,6 +3640,53 @@ wheels = [
 ]
 
 [[package]]
+name = "small-llm"
+version = "0.1.0"
+source = { editable = "." }
+
+[package.dev-dependencies]
+dev = [
+    { name = "black" },
+    { name = "datasets" },
+    { name = "dotenv" },
+    { name = "flake8" },
+    { name = "ipykernel" },
+    { name = "isort" },
+    { name = "jupyter" },
+    { name = "nbconvert" },
+    { name = "nbstripout" },
+    { name = "pre-commit" },
+    { name = "pytest" },
+    { name = "pytest-cov" },
+    { name = "torch" },
+    { name = "torch-pruning" },
+    { name = "torchvision" },
+    { name = "transformers" },
+]
+
+[package.metadata]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "black", specifier = "==26.5.1" },
+    { name = "datasets", specifier = ">=5.1.0" },
+    { name = "dotenv", specifier = ">=0.9.9" },
+    { name = "flake8", specifier = "==7.3.0" },
+    { name = "ipykernel", specifier = "==7.3.0" },
+    { name = "isort", specifier = "==8.0.1" },
+    { name = "jupyter", specifier = "==1.1.1" },
+    { name = "nbconvert", specifier = "==7.17.1" },
+    { name = "nbstripout", specifier = "==0.9.1" },
+    { name = "pre-commit", specifier = "==4.6.1" },
+    { name = "pytest", specifier = "==9.1.1" },
+    { name = "pytest-cov", specifier = "==7.1.0" },
+    { name = "torch", specifier = ">=2.14.1" },
+    { name = "torch-pruning", specifier = ">=1.6.1" },
+    { name = "torchvision", specifier = ">=0.29.1" },
+    { name = "transformers", specifier = ">=5.20.1" },
+]
+
+[[package]]
 name = "soupsieve"
 version = "2.9.2"
 source = { registry = "https://pypi.org/simple" }
@@ -4092,53 +4139,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/bf/60/bc7a980fc78837d6ef8f5940cca4cadc433364503a4c4d42e2a7a0de3231/widgetsnbextension-4.0.16.tar.gz", hash = "sha256:adeea0ae78f0856ee4945f413299801b82a0a01416303301f39a704282a37b73", size = 1111094, upload-time = "2026-08-18T08:52:55.859Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/34/95/40e17e20046b7bc820d29d09ae84ec157ec8dd6e6f6cd722626292c31b2e/widgetsnbextension-4.0.16-py3-none-any.whl", hash = "sha256:a31a8774885b96fe825462f5d6496166f0c7cae111195b6465c801d230eb5a4e", size = 2225148, upload-time = "2026-08-18T08:52:53.736Z" },
-]
-
-[[package]]
-name = "wine-origin"
-version = "0.1.0"
-source = { editable = "." }
-
-[package.dev-dependencies]
-dev = [
-    { name = "black" },
-    { name = "datasets" },
-    { name = "dotenv" },
-    { name = "flake8" },
-    { name = "ipykernel" },
-    { name = "isort" },
-    { name = "jupyter" },
-    { name = "nbconvert" },
-    { name = "nbstripout" },
-    { name = "pre-commit" },
-    { name = "pytest" },
-    { name = "pytest-cov" },
-    { name = "torch" },
-    { name = "torch-pruning" },
-    { name = "torchvision" },
-    { name = "transformers" },
-]
-
-[package.metadata]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "black", specifier = "==26.5.1" },
-    { name = "datasets", specifier = ">=5.1.0" },
-    { name = "dotenv", specifier = ">=0.9.9" },
-    { name = "flake8", specifier = "==7.3.0" },
-    { name = "ipykernel", specifier = "==7.3.0" },
-    { name = "isort", specifier = "==8.0.1" },
-    { name = "jupyter", specifier = "==1.1.1" },
-    { name = "nbconvert", specifier = "==7.17.1" },
-    { name = "nbstripout", specifier = "==0.9.1" },
-    { name = "pre-commit", specifier = "==4.6.1" },
-    { name = "pytest", specifier = "==9.1.1" },
-    { name = "pytest-cov", specifier = "==7.1.0" },
-    { name = "torch", specifier = ">=2.14.1" },
-    { name = "torch-pruning", specifier = ">=1.6.1" },
-    { name = "torchvision", specifier = ">=0.29.1" },
-    { name = "transformers", specifier = ">=5.20.1" },
 ]
 
 [[package]]
