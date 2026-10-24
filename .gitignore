@@ -240,3 +240,4 @@ models/*
 .env
 
 .idea
+.DS_Store
