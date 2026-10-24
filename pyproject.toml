@@ -28,6 +28,7 @@ addopts = "-ra"
 [dependency-groups]
 dev = [
     "black==26.5.1",
+    "datasets>=5.1.0",
     "dotenv>=0.9.9",
     "flake8==7.3.0",
     "ipykernel==7.3.0",
