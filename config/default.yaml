@@ -1,3 +1,14 @@
 # All the numbers and paths a run needs, in one place — nothing below should be
 # hardcoded in src/. Override any key from the CLI, e.g.:
 #   python -m model_origin train --override model.random_forest.n_estimators=300
+
+demo:
+  metrics: results/demo_metrics.json
+  max_new_tokens: 128
+  max_prompt_tokens: 960
+  bert:
+    base: models/bert-base-sst2-teacher
+    compressed: models/tiny-bert-best
+  qwen:
+    base: models/qwen2-1.5b-teacher
+    compressed: models/gkd-qwen2-0.5b-xlsum

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>__TITLE__ — Zero Cycles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@125,400;125,500;125,700;125,800&family=Unbounded:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/site.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <a class="is-quiet" href="/">MAIN</a>
+      <a href="/methods">TRY</a>
+    </header>
+    <main class="usage">
+      <div class="usage-head">
+        <div>
+          <h1 class="usage-title">__TITLE__</h1>
+          <div class="pair-tabs" id="tabs" role="tablist"></div>
+        </div>
+        <img class="usage-mark" src="/static/img/__CAT__" alt="" width="185" height="185" />
+      </div>
+      <p class="examples-label">Examples of prompt:</p>
+      <div class="chips" id="examples"></div>
+      <form class="composer" id="composer">
+        <textarea class="prompt" id="prompt" rows="1"></textarea>
+        <button class="send" id="send" type="submit">
+          <img src="/static/img/send.svg" alt="" width="105" height="56" />
+          <span>Send</span>
+        </button>
+      </form>
+      <section class="result" id="result" hidden>
+        <div class="answers" id="answers" hidden>
+          <article class="answer" id="base-answer">
+            <p class="thinking" hidden>
+              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              Thinking
+            </p>
+            <p class="answer-label">Base model answered:</p>
+            <p class="answer-text"></p>
+          </article>
+          <div class="answer-rule" aria-hidden="true"></div>
+          <article class="answer" id="compressed-answer">
+            <p class="thinking" hidden>
+              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              Thinking
+            </p>
+            <p class="answer-label">Compressed model answered:</p>
+            <p class="answer-text"></p>
+          </article>
+        </div>
+        <p class="notice" id="notice" hidden></p>
+        <table class="report" id="report" hidden>
+          <thead>
+            <tr>
+              <th>Report</th>
+              <th>Base</th>
+              <th>Compressed</th>
+            </tr>
+          </thead>
+          <tbody id="report-body"></tbody>
+        </table>
+      </section>
+    </main>
+    <script id="boot" type="application/json">
+      __BOOT__
+    </script>
+    <script src="/static/js/method.js"></script>
+  </body>
+</html>

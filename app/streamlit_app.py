@@ -1,8 +1,4 @@
-"""Minimal interactive demo: enter (or sample) a wine's chemistry, get a prediction.
+"""The course demo is the local site, not this file.
 
-Run with `streamlit run app/streamlit_app.py` (see app/README.md). This is
-intentionally small — one page, no auth, no database —
-because for a course project the point is showing the model works, not building a
-production frontend. See README.md's "other demo formats" note for what a
-research-track or a heavier engineering-track project might do instead.
+Run ``python app/server.py`` and open http://127.0.0.1:8000. See app/README.md.
 """
