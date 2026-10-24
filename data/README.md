@@ -1,3 +1,5 @@
+# data/ — Ukrainian language datasets
+
 
 # data/ — Ukrainian language datasets
 
@@ -25,6 +27,7 @@ appear stale; rerun the MMLU loading and shape cells together before reporting
 those split sizes.
 
 
+
 The notebook preserves the source splits and creates no additional train/test
 partition. A split named `train` describes the upstream dataset; loading it here
 does not mean that it is used to train a model.
@@ -32,6 +35,7 @@ does not mean that it is used to train a model.
 ## Schema and prompt preparation
 
 ### mmlu_ukr
+
 
 - `question`: question text.
 - `subject`: academic subject.
@@ -54,7 +58,6 @@ Repeated spaces in the question are collapsed.
 IDs paired with their non-null parameters. It collapses repeated spaces in the
 prompt. The returned metadata supports later verification; the notebook does
 not implement the instruction checkers or provide a reference answer.
-
 
 ### XL-Sum Ukrainian
 
@@ -105,7 +108,6 @@ The MMLU validation and test files follow the same naming pattern with
 
 For XL-Sum, download the Ukrainian Parquet files from Hugging Face by running this command from the project root:
 
-
 ```bash
 hf download csebuetnlp/xlsum \
   --repo-type dataset \
@@ -129,6 +131,10 @@ xlsum = load_dataset("parquet", data_files={
     "validation": str(data_dir / "validation" / "0000.parquet"),
     "test": str(data_dir / "test" / "0000.parquet"),
 })
+<<<<<<< HEAD
+=======
+
+>>>>>>> a09d8a3 (chore: fixed readme for data and proposal folders)
 train_df = xlsum["train"].to_pandas()
 val_df = xlsum["validation"].to_pandas()
 test_df = xlsum["test"].to_pandas()
