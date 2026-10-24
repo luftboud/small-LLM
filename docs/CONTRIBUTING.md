@@ -29,7 +29,7 @@ Every change is a pull request into `main`.
 - The branch is up to date with `main` before merge.
 - Merge method is rebase, so `main` stays a straight line of the branch's commits.
 - Two checks must pass: `lint` (flake8, black, isort) and `conventions`
-  (this file's branch and commit rules).
+  (this file's branch-name rule).
 
 The author of a pull request cannot approve it. Ask another collaborator.
 
@@ -47,8 +47,8 @@ type `feat`. `scope` is optional and uses the same
 lowercase kebab-case as a branch name. The whole first line is ASCII and at most
 72 characters. Write the subject in English.
 
-The checker enforces that first line only. Use the body for the reasoning the
-diff cannot show: why this approach, what was ruled out, what tradeoff was made.
+Nothing checks the subject. Use the body for the reasoning the diff cannot
+show: why this approach, what was ruled out, what tradeoff was made.
 Leave a blank line between the subject and the body.
 
 For `exp:` commits, put the result in the body so the git log stays a short
@@ -87,17 +87,14 @@ macro-F1 0.81 -> 0.78 at about 4x smaller weights. Notes: results/experiments.md
 
 ## Local hooks
 
-The same rules run before a commit, once the hooks are installed:
+The branch-name rule runs before a commit, once the hooks are installed:
 
 ```bash
 pip install pre-commit
 pre-commit install
 ```
 
-`pre-commit install` reads `default_install_hook_types` in
-`.pre-commit-config.yaml` and installs both the `pre-commit` and `commit-msg`
-hooks. Run it again if the hooks were installed before the commit-message hook
-existed. `--no-verify` skips the local hooks; the `conventions` check on the
-pull request still applies.
+`--no-verify` skips the local hooks; the `conventions` check on the pull
+request still applies.
 
 Enforcement on GitHub is described in [`docs/branch-protection.md`](branch-protection.md).
