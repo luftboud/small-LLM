@@ -1,0 +1,13 @@
+{
+  "bert": {
+    "rows": [
+      {"name": "Loss", "base": null, "compressed": "0.9804"},
+      {"name": "Accuracy", "base": null, "compressed": "0.8291"}
+    ]
+  },
+  "qwen": {
+    "rows": [
+      {"name": "RaugeL", "base": null, "compressed": null}
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Zero Cycles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@125,400;125,500;125,700;125,800&family=Unbounded:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/site.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <a href="/">MAIN</a>
+      <a class="is-quiet" href="/methods">TRY</a>
+    </header>
+    <section class="hero">
+      <h1 class="hero-title">Zero Cycles</h1>
+      <p class="tagline">A team with a great future mark for AI course</p>
+      <div class="hero-cats">
+        <img class="cat-iia" src="/static/img/cat-iia.png" alt="" width="170" height="133" />
+        <img class="cat-vlad" src="/static/img/cat-vlad.png" alt="" width="137" height="210" />
+        <img class="cat-oksana" src="/static/img/cat-oksana.png" alt="" width="109" height="203" />
+        <span class="cat-name name-iia">Iia</span>
+        <span class="cat-name name-vlad">Vlad</span>
+        <span class="cat-name name-oksana">Oksana</span>
+      </div>
+    </section>
+    <section class="about">
+      <div class="about-copy">
+        <h2>What is this about.1</h2>
+        <p>
+          This is a project aimed to get aknowledged with different language models compression
+          methods, practice with them, and then implement a pipeline for compressing ukrainian
+          languge model.
+        </p>
+      </div>
+      <img
+        class="about-image"
+        src="/static/img/about-compression.jpg"
+        alt="A large network compressed through a pipeline into a small model and a stack of pages"
+        width="391"
+        height="274"
+      />
+    </section>
+    <section class="methods-blurb">
+      <h2>What is this about.2</h2>
+      <div class="blurb-grid">
+        <a href="/method/pruning">
+          <h3>Prunning</h3>
+          <p>Remove weights that barely change the answer. The model gets smaller and faster, and the useful parts stay.</p>
+        </a>
+        <a href="/method/distillation">
+          <h3>Knowledge distillation</h3>
+          <p>A small student learns to mimic a larger teacher, keeping most of the skill in far fewer parameters.</p>
+        </a>
+        <a href="/method/quantization">
+          <h3>Quantization</h3>
+          <p>Keep the same network, but store each number in fewer bits. The file shrinks and runs more cheaply.</p>
+        </a>
+      </div>
+    </section>
+  </body>
+</html>
