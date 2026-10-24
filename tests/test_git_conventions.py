@@ -11,7 +11,7 @@ _SPEC.loader.exec_module(git_conventions)
 
 def test_branch_names_that_match_the_pattern():
     for name in (
-        "feat/add-tokenizer",
+        "feature/add-tokenizer",
         "fix/empty-test-split",
         "docs/contribution-rules",
         "exp/int4-quantization",
@@ -19,8 +19,8 @@ def test_branch_names_that_match_the_pattern():
         "test/cover-loader",
         "chore/drop-unused-import",
         "ci/contribution-checks",
-        "feat/a",
-        "feat/123",
+        "feature/a",
+        "feature/123",
     ):
         assert git_conventions.branch_errors(name) == []
 
@@ -29,12 +29,12 @@ def test_branch_names_that_do_not_match():
     for name in (
         "main",
         "data-exploration",
-        "feature/add-tokenizer",
-        "feat/Add-Tokenizer",
-        "feat/",
-        "feat/add_tokenizer",
-        "feat/add--tokenizer",
-        "Feat/add-tokenizer",
+        "feat/add-tokenizer",
+        "feature/Add-Tokenizer",
+        "feature/",
+        "feature/add_tokenizer",
+        "feature/add--tokenizer",
+        "Feature/add-tokenizer",
     ):
         assert git_conventions.branch_errors(name)
 

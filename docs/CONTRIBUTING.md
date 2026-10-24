@@ -7,10 +7,10 @@ GitHub shows this file when a pull request is opened.
 
 Name every branch `type/short-kebab-case`.
 
-Allowed types: `feat`, `fix`, `docs`, `exp`, `refactor`, `test`, `chore`, `ci`.
+Allowed types: `feature`, `fix`, `docs`, `exp`, `refactor`, `test`, `chore`, `ci`.
 
 ```
-feat/add-tokenizer
+feature/add-tokenizer
 fix/empty-test-split
 exp/int4-quantization
 ci/contribution-checks
@@ -42,7 +42,8 @@ type: subject
 type(scope): subject
 ```
 
-Types match the branch types above. `scope` is optional and uses the same
+Types match the branch types above, except a `feature/…` branch uses the commit
+type `feat`. `scope` is optional and uses the same
 lowercase kebab-case as a branch name. The whole first line is ASCII and at most
 72 characters. Write the subject in English.
 
