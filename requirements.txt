@@ -11,3 +11,5 @@ streamlit==1.61.1
 huggingface_hub==1.27.0
 torch==2.14.1
 torchvision==0.29.1
+trl==1.16.0
+rouge-score==0.1.2
