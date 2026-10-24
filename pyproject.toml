@@ -3,9 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "wine-origin"
+name = "small-lmm"
 version = "0.1.0"
-description = "Wine cultivar classification example project (course template)"
+description = "Quantization, Pruning, Knowledge Distillation of Ukrainian LLM"
 requires-python = ">=3.11"
 readme = "README.md"
 license = { text = "MIT" }

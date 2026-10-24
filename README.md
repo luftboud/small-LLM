@@ -1,12 +1,9 @@
 # Quantization, Pruning, Knowledge Distillation of Ukrainian LLM
 
-Predicts which of 3 grape cultivars a wine came from, using 13 chemical measurements — a small, complete, fully-reproducible example project built from [`ucu-ai-course/project-template`](https://github.com/ucu-ai-course/project-template).
+Term project for "Artificial Intelligence" course, which explores quantization, pruning, and knowledge distillation to reduce the computational requirements of language models while preserving their performance on Ukrainian-language tasks.
 
 ![lint](https://github.com/ucu-ai-course/project-template/actions/workflows/lint.yml/badge.svg)
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
-
-> [!note]
-> This repo is **both** a GitHub Template (click "Use this template" to get a clean, working starting point for your own semester project) **and** a fully filled-in example (this exact repo trains a real model and produces real numbers — nothing here is a placeholder). See §"Repository structure" for what to replace with your own project's content.
 
 ## Demo
 
@@ -16,22 +13,26 @@ Predicts which of 3 grape cultivars a wine came from, using 13 chemical measurem
 
 ## Team
 
-| Name | GitHub | Role |
-|---|---|---|
-| Oleksandr Kosovan | [@OleksandrKosovan](https://github.com/OleksandrKosovan) | Data pipeline, modeling, evaluation |
-| Slavko Prytula | [@SlavkoPrytula](https://github.com/SlavkoPrytula) | CLI, Streamlit app, CI/CD |
+| Name                 | GitHub                                   | Role                                |
+|----------------------|------------------------------------------|-------------------------------------|
+| Iia Maharyta         | [@luftboud](https://github.com/luftboud) | Knowledge Distillation,  CI/CD, App |
+| Vladyslav Danylyshyn | [@D-VLAD1](https://github.com/D-VLAD1)   | Pruning                             |
+| Oksana Moskviak      | [@okqsna](https://github.com/okqsna)     | Data Exploration, Quantization      |
 
 ## Problem and motivation
 
-Wine composition is routinely measured in a lab (alcohol content, phenols, color intensity, and so on), but the cultivar a bottle actually comes from isn't always recorded reliably further down the supply chain. This project asks a narrow, checkable question: given only the chemistry, can a simple model recover the cultivar? It's a deliberately small, well-understood problem — the point of this repository is to demonstrate a complete, reproducible ML project structure end to end, not to push the state of the art on wine chemistry.
+Modern large language models (LLMs) require substantial memory and computational resources due to their large number of parameters, making them difficult to run locally and deploy on resource-constrained devices. Model compression through quantization, distillation, and pruning offers a promising way to address these challenges. This project aims to compare these methods, their variants, and their combinations to identify the approaches that achieve the best balance between model size, memory usage, inference speed, and performance, with a particular focus on Ukrainian-language tasks.
+## Datasets
 
-## Data
+| Dataset | Purpose in the project |
+|---|---|
+| `mmlu_ukr` | Ukrainian multiple-choice questions for evaluating knowledge and reasoning across subjects. |
+| `ifeval_ukr` | Ukrainian prompts with constraints for evaluating instruction following. |
+| `wiki-instruction-dialogs` | Instruction–response data for exploring instruction-based training and evaluation. |
+| Ukrainian XL-Sum | News articles paired with reference summaries for summarization experiments. |
+| Ukrainian C4 | Text used for calibration in quantization experiments. |
 
-178 samples, 13 numeric chemical features, 3 balanced-ish classes, sourced from the UCI Wine Recognition dataset via `sklearn.datasets.load_wine`. No missing values, no personal data, no licensing restrictions beyond standard academic citation. Full data card, schema, and checksum: [`data/README.md`](data/README.md).
-
-> [!note] Why this matters: data isn't part of this git repo
-> `data/`, like `models/`, is gitignored. Committing raw data bloats the repo forever (`git rm` doesn't remove history — see `data/README.md`), makes diffs unreadable, and often runs into licenses that don't actually permit redistribution. Instead, `data/raw/CHECKSUMS.txt` **is** committed — a few bytes that let anyone verify they regenerated the exact same data, without the data itself ever touching git.
-
+For more information visit `data/README.md`.
 ## Approach
 
 ```mermaid
