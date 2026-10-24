@@ -14,15 +14,15 @@ import re
 import subprocess
 import sys
 
-TYPES = ("feat", "fix", "docs", "exp", "refactor", "test", "chore", "ci")
+BRANCH_TYPES = ("feature", "fix", "docs", "exp", "refactor", "test", "chore", "ci")
+COMMIT_TYPES = ("feat", "fix", "docs", "exp", "refactor", "test", "chore", "ci")
 MAX_HEADER_LENGTH = 72
 
-_TYPE = "|".join(TYPES)
 _KEBAB = r"[a-z0-9]+(?:-[a-z0-9]+)*"
-BRANCH_PATTERN = rf"^(?:{_TYPE})/{_KEBAB}$"
-HEADER_PATTERN = rf"^(?:{_TYPE})(?:\({_KEBAB}\))?: \S(?:.*\S)?$"
+BRANCH_PATTERN = rf"^(?:{'|'.join(BRANCH_TYPES)})/{_KEBAB}$"
+HEADER_PATTERN = rf"^(?:{'|'.join(COMMIT_TYPES)})(?:\({_KEBAB}\))?: \S(?:.*\S)?$"
 
-BRANCH_EXAMPLE = "feat/add-tokenizer"
+BRANCH_EXAMPLE = "feature/add-tokenizer"
 HEADER_EXAMPLE = "feat: add a tokenizer"
 
 
@@ -34,7 +34,7 @@ def branch_errors(name: str) -> list[str]:
             f"Create a branch such as {BRANCH_EXAMPLE} and commit there."
         ]
     if not _fullmatch(BRANCH_PATTERN, name):
-        allowed = ", ".join(TYPES)
+        allowed = ", ".join(BRANCH_TYPES)
         return [
             f"Branch {name!r} does not match type/short-kebab-case. "
             f"Allowed types: {allowed}. Example: {BRANCH_EXAMPLE}."
@@ -55,7 +55,7 @@ def header_errors(line: str) -> list[str]:
             f"Commit subject is {len(line)} characters; the maximum is {MAX_HEADER_LENGTH}."
         )
     if not _fullmatch(HEADER_PATTERN, line):
-        allowed = ", ".join(TYPES)
+        allowed = ", ".join(COMMIT_TYPES)
         errors.append(
             "Commit subject must look like 'type: subject' or 'type(scope): subject'. "
             f"Allowed types: {allowed}. Scope is lowercase kebab-case. "
