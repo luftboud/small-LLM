@@ -6,4 +6,4 @@
 - `04-quantization-intro` - Implementation and comparison of quantization methods, examining model quality and memory usage.
 - `05-generalised-knowledge-distillation` - Experiments with generalised knowledge distillation using student-generated responses and teacher feedback.
 
-The four notebooks in this folder are fully executed.
+The five notebooks in this folder are fully executed.
