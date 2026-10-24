@@ -1,22 +1,16 @@
-# Install with `pre-commit install`. default_install_hook_types includes commit-msg,
-# so run that command again if the hooks were installed before the message check existed.
-# `--no-verify` skips these hooks; the conventions job on the pull request still runs.
-default_install_hook_types: [pre-commit, commit-msg]
+# Install with `pre-commit install`. `--no-verify` skips these hooks; the
+# conventions job on the pull request still checks the branch name.
+default_install_hook_types: [pre-commit]
 repos:
   - repo: local
     hooks:
       - id: branch-name
         name: branch name matches type/kebab-case
-        entry: python3 scripts/git_conventions.py branch
+        entry: python3 scripts/git_conventions.py
         language: system
         pass_filenames: false
         always_run: true
         stages: [pre-commit]
-      - id: commit-message
-        name: conventional commit subject
-        entry: python3 scripts/git_conventions.py message
-        language: system
-        stages: [commit-msg]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0

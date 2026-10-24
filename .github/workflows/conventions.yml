@@ -1,6 +1,5 @@
-# Branch names and commit subjects on every pull request. The job name is the
-# check name required by .github/rulesets/main.json. Checkout is the PR head,
-# not GitHub's synthetic merge commit, so that merge commit is not linted.
+# Branch names on every pull request. The job name is the check name required
+# by .github/rulesets/main.json.
 name: conventions
 
 on:
@@ -12,15 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Fetch base branch
-        run: git fetch --no-tags origin ${{ github.base_ref }}
 
       - name: Check branch name
-        run: python3 scripts/git_conventions.py branch
-
-      - name: Check commit subjects
-        run: python3 scripts/git_conventions.py commits
+        run: python3 scripts/git_conventions.py

@@ -136,7 +136,7 @@ Pre-commit hooks (installed by `make setup`) catch most of this before you even 
 
 ## Contributing
 
-Work lands on `main` through a branch and a rebase pull request with one review. Branch names, commit subjects, and hook setup: [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md).
+Work lands on `main` through a branch and a rebase pull request with one review. Branch names and hook setup: [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md).
 
 ## AI usage
 
