@@ -40,6 +40,7 @@ dev = [
     "pre-commit==4.6.1",
     "pytest==9.1.1",
     "pytest-cov==7.1.0",
+    "rouge-score>=0.1.2",
     "torch>=2.14.1",
     "torch-pruning>=1.6.1",
     "torchvision>=0.29.1",
