@@ -72,19 +72,49 @@ def test_default_model_directories():
 def test_report_rows_differ_by_pair():
     report = load_report()
 
-    assert [row["name"] for row in report["bert"]] == ["Loss", "Accuracy"]
-    assert report["bert"][0]["compressed"] == "0.9804"
-    assert report["bert"][1]["compressed"] == "0.8291"
-    assert report["bert"][0]["base"] == "—"
-    assert [row["name"] for row in report["qwen"]] == ["RaugeL"]
-    assert report["qwen"][0]["base"] == "—"
-    assert report["qwen"][0]["compressed"] == "—"
-    assert [row["name"] for row in report["pruning"]] == ["Loss", "Size (MB)"]
-    assert report["pruning"][0]["base"] == "3.762"
+    assert [row["name"] for row in report["bert"]] == [
+        "Loss",
+        "Accuracy",
+        "Size (MB)",
+        "Parameters (M)",
+    ]
+    assert report["bert"][0]["base"] == "0.2819"
+    assert report["bert"][0]["compressed"] == "2.1711"
+    assert report["bert"][1]["base"] == "0.9243"
+    assert report["bert"][1]["compressed"] == "0.8165"
+    assert report["bert"][2]["base"] == "419"
+    assert report["bert"][2]["compressed"] == "18"
+    assert report["bert"][3]["base"] == "109.48"
+    assert report["bert"][3]["compressed"] == "4.39"
+    assert [row["name"] for row in report["qwen"]] == [
+        "ROUGE-1",
+        "ROUGE-2",
+        "ROUGE-L",
+        "Size (MB)",
+        "Parameters (M)",
+    ]
+    assert report["qwen"][2]["base"] == "0.0550"
+    assert report["qwen"][2]["compressed"] == "0.0533"
+    assert [row["name"] for row in report["pruning"]] == [
+        "Loss",
+        "Size (MB)",
+        "Parameters (M)",
+        "ROUGE-1",
+        "ROUGE-2",
+        "ROUGE-L",
+    ]
+    assert report["pruning"][0]["base"] == "3.8468"
     assert report["pruning"][1]["compressed"] == "983.22"
-    assert [row["name"] for row in report["quantization"]] == ["Loss", "ROUGE-L"]
+    assert report["pruning"][5]["compressed"] == "0.0226"
+    assert [row["name"] for row in report["quantization"]] == [
+        "Loss",
+        "Size (MB)",
+        "ROUGE-1",
+        "ROUGE-2",
+        "ROUGE-L",
+    ]
     assert report["quantization"][0]["compressed"] == "3.8612"
-    assert report["quantization"][1]["base"] == "0.0914"
+    assert report["quantization"][4]["base"] == "0.0914"
 
 
 def test_a_readme_is_not_a_weight_folder(tmp_path):

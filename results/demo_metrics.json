@@ -1,24 +1,42 @@
 {
   "bert": {
     "rows": [
-      {"name": "Loss", "base": null, "compressed": "0.9804"},
-      {"name": "Accuracy", "base": null, "compressed": "0.8291"}
+      {"name": "Loss", "base": "0.2819", "compressed": "2.1711"},
+      {"name": "Accuracy", "base": "0.9243", "compressed": "0.8165"},
+      {"name": "Size (MB)", "base": "419", "compressed": "18"},
+      {"name": "Parameters (M)", "base": "109.48", "compressed": "4.39"}
     ]
   },
   "qwen": {
     "rows": [
-      {"name": "RaugeL", "base": null, "compressed": null}
+      {"name": "ROUGE-1", "base": "0.0550", "compressed": "0.0533"},
+      {"name": "ROUGE-2", "base": "0.0100", "compressed": "0.0000"},
+      {"name": "ROUGE-L", "base": "0.0550", "compressed": "0.0533"},
+      {
+        "name": "Jensen-Shenon Loss",
+        "base": "-",
+        "compressed": "0.1288"
+      },
+      {"name": "Size (MB)", "base": "2944", "compressed": "942"},
+      {"name": "Parameters (M)", "base": "1543.7", "compressed": "494.0"}
     ]
   },
   "pruning": {
     "rows": [
-      {"name": "Loss", "base": "3.762", "compressed": "4.828"},
-      {"name": "Size (MB)", "base": "1072.39", "compressed": "983.22"}
+      {"name": "Loss", "base": "3.8468", "compressed": "3.579"},
+      {"name": "Size (MB)", "base": "1072.39", "compressed": "983.22"},
+      {"name": "Parameters (M)", "base": "268.10", "compressed": "245.80"},
+      {"name": "ROUGE-1", "base": "0.1037", "compressed": "0.0410"},
+      {"name": "ROUGE-2", "base": "0.0268", "compressed": "0.0030"},
+      {"name": "ROUGE-L", "base": "0.0824", "compressed": "0.0358"}
     ]
   },
   "quantization": {
     "rows": [
       {"name": "Loss", "base": "3.8468", "compressed": "3.8612"},
+      {"name": "Size (MB)", "base": "1072.395", "compressed": "771.585"},
+      {"name": "ROUGE-1", "base": "0.1168", "compressed": "0.1136"},
+      {"name": "ROUGE-2", "base": "0.0290", "compressed": "0.0277"},
       {"name": "ROUGE-L", "base": "0.0914", "compressed": "0.0884"}
     ]
   }

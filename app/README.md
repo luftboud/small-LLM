@@ -19,5 +19,7 @@ The site reads weights only from the directories in `config/default.yaml`:
 | Compressed | `models/tiny-bert-best` | `models/gkd-qwen2-0.5b-xlsum` | `models/best_pruned_model` | `models/gemma-hqq-xlsum` |
 
 Each directory needs a transformers `config.json` and a weight file. If a directory is
-empty, Send explains that instead of printing a traceback. Loss, accuracy, and ROUGE-L
-come from `results/demo_metrics.json` and do not change with the prompt.
+empty, Send explains that instead of printing a traceback. Loss, accuracy, ROUGE,
+size, and parameter counts come from `results/demo_metrics.json` and do not
+change with the prompt. Each row compares the base and compressed model saved
+for that tab.
