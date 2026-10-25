@@ -12,3 +12,9 @@ demo:
   qwen:
     base: models/qwen2-1.5b-teacher
     compressed: models/gkd-qwen2-0.5b-xlsum
+  pruning:
+    base: models/gemma-baseline
+    compressed: models/best_pruned_model
+  quantization:
+    base: models/gemma-baseline
+    compressed: models/gemma-hqq-xlsum

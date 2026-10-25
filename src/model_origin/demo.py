@@ -1,8 +1,8 @@
-"""Local demo inference for the distillation pages.
+"""Local demo inference for the method pages.
 
-BERT classifies a sentence. Qwen summarizes an article. Weights are read only from
-the directories in ``config/default.yaml``. A missing folder is a message, not a
-download and not a traceback.
+BERT classifies a sentence. Qwen, pruning, and quantization summarize an article.
+Weights are read only from the directories in ``config/default.yaml``. A missing
+folder is a message, not a download and not a traceback.
 """
 
 from __future__ import annotations
@@ -65,10 +65,7 @@ QWEN_EXAMPLES = (
     },
 )
 
-STUB_TABS = {
-    "pruning": "Pruning",
-    "quantization": "Quantization",
-}
+GEMMA_PAIRS = ("pruning", "quantization")
 
 
 @dataclass(frozen=True)
@@ -85,6 +82,8 @@ class DemoConfig:
 
     bert: ModelPaths
     qwen: ModelPaths
+    pruning: ModelPaths
+    quantization: ModelPaths
     metrics: Path
     max_new_tokens: int
     max_prompt_tokens: int
@@ -111,10 +110,19 @@ def load_demo_config(path: Path | None = None) -> DemoConfig:
     return DemoConfig(
         bert=pair("bert"),
         qwen=pair("qwen"),
+        pruning=pair("pruning"),
+        quantization=pair("quantization"),
         metrics=_resolve(root, demo.get("metrics", "results/demo_metrics.json")),
         max_new_tokens=int(demo.get("max_new_tokens", 128)),
         max_prompt_tokens=int(demo.get("max_prompt_tokens", 960)),
     )
+
+
+def gemma_prompt(text: str) -> str:
+    """Wrap an article the way notebooks 03 and 04 wrap an XLSum record."""
+    body = text.replace("\u200e", "")
+    body = re.sub(r" {2,}", " ", body).strip()
+    return f"Підсумуй цю статтю:\n{body}\n"
 
 
 def summarize_prompt(text: str, title: str = "") -> str:
@@ -156,6 +164,7 @@ def weights_present(path: Path) -> bool:
         return False
     return any(
         name == "model.safetensors.index.json"
+        or name == "qmodel.pt"
         or name.endswith(".safetensors")
         or name.endswith(".bin")
         for name in names
@@ -192,6 +201,8 @@ def load_report(path: Path | None = None) -> dict[str, list[dict[str, str]]]:
     return {
         "bert": format_report(payload, "bert"),
         "qwen": format_report(payload, "qwen"),
+        "pruning": format_report(payload, "pruning"),
+        "quantization": format_report(payload, "quantization"),
     }
 
 
@@ -208,11 +219,17 @@ def client_boot(method: str) -> dict:
             },
             "metrics": report,
         }
-    label = STUB_TABS.get(method, method)
+    if method in GEMMA_PAIRS:
+        return {
+            "wired": True,
+            "pair": method,
+            "pairs": {method: {"label": "Gemma", "examples": list(QWEN_EXAMPLES)}},
+            "metrics": {method: report[method]},
+        }
     return {
         "wired": False,
         "pair": method,
-        "pairs": {method: {"label": label, "examples": list(BERT_EXAMPLES)}},
+        "pairs": {},
         "metrics": {},
     }
 
@@ -225,12 +242,12 @@ def run_pair(
 ) -> dict:
     """Run the teacher, then the student. Missing weights never raise."""
     cleaned = text.strip()
-    if pair_name not in ("bert", "qwen"):
-        return _failure("Choose BERT or Qwen.")
+    if pair_name not in ("bert", "qwen", *GEMMA_PAIRS):
+        return _failure("Choose a model.")
     if not cleaned:
         return _failure("Enter a prompt first.")
     cfg = config or load_demo_config()
-    paths = cfg.bert if pair_name == "bert" else cfg.qwen
+    paths = getattr(cfg, pair_name)
     missing = [item for item in (paths.base, paths.compressed) if not weights_present(item)]
     if missing:
         listed = " and ".join(display_path(item) for item in missing)
@@ -240,7 +257,9 @@ def run_pair(
             _keep_pair(pair_name)
             if pair_name == "bert":
                 return _run_bert(paths, cleaned)
-            return _run_qwen(paths, cleaned, title, cfg)
+            if pair_name == "qwen":
+                return _run_qwen(paths, cleaned, title, cfg)
+            return _run_gemma(paths, cleaned, cfg, quantized=pair_name == "quantization")
         except Exception as exc:  # noqa: BLE001 — the page shows one line, not a traceback
             return _failure(f"The model could not answer: {_short(exc)}")
 
@@ -348,6 +367,46 @@ def _run_qwen(paths: ModelPaths, text: str, title: str, config: DemoConfig) -> d
         lambda: _generate(compressed, content, device, config)
     )
     return _joined(base_text, base_error, compressed_text, compressed_error)
+
+
+def _run_gemma(paths: ModelPaths, text: str, config: DemoConfig, quantized: bool) -> dict:
+    device = _device()
+    content = gemma_prompt(text)
+    kind = "quantization" if quantized else "pruning"
+    base = _load(paths.base, device, kind)
+    compressed = (
+        _load_hqq(paths.compressed, device, kind)
+        if quantized
+        else _load(paths.compressed, device, kind)
+    )
+    base_text, base_error = _safe(lambda: _generate(base, content, device, config))
+    compressed_text, compressed_error = _safe(
+        lambda: _generate(compressed, content, device, config)
+    )
+    return _joined(base_text, base_error, compressed_text, compressed_error)
+
+
+def _load_hqq(path: Path, device: str, kind: str):
+    """Load a model saved by ``AutoHQQHFModel.save_quantized`` (``qmodel.pt``)."""
+    key = (kind, str(path))
+    cached = _CACHE.get(key)
+    if cached is not None:
+        return cached
+    from hqq.models.hf.base import AutoHQQHFModel
+    from transformers import AutoTokenizer
+
+    tokenizer = AutoTokenizer.from_pretrained(path, local_files_only=True)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+    model = AutoHQQHFModel.from_quantized(
+        str(path),
+        compute_dtype=_dtype(device),
+        device=device,
+        cache_dir=None,
+    )
+    model.eval()
+    _CACHE[key] = (model, tokenizer)
+    return model, tokenizer
 
 
 def _joined(base_text, base_error, compressed_text, compressed_error) -> dict:
