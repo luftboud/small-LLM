@@ -1,8 +1,5 @@
 # data/ — Ukrainian language datasets
 
-
-# data/ — Ukrainian language datasets
-
 ## Datasets and sources
 
 | Dataset | Purpose | Source |
