@@ -73,8 +73,8 @@ class Handler(BaseHTTPRequestHandler):
             self._json(400, _failure("The request was not valid JSON."))
             return
         pair = payload.get("pair")
-        if pair not in ("bert", "qwen"):
-            self._json(400, _failure("Choose BERT or Qwen."))
+        if pair not in ("bert", "qwen", "pruning", "quantization"):
+            self._json(400, _failure("Choose a model."))
             return
         text = payload.get("text") or ""
         title = payload.get("title") or ""

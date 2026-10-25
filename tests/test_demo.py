@@ -11,6 +11,7 @@ from app.server import Handler
 from model_origin.demo import (
     classification_label,
     client_boot,
+    gemma_prompt,
     load_demo_config,
     load_report,
     run_pair,
@@ -43,6 +44,13 @@ def test_summarize_prompt_stops_at_three_thousand_characters():
     assert body == ("а" * 3000) + "\n "
 
 
+def test_gemma_prompt_matches_the_notebook_wrapper():
+    prompt = gemma_prompt("  Нічний   трамвай\u200e  ")
+
+    assert prompt == "Підсумуй цю статтю:\nНічний трамвай\n"
+    assert "Назва:" not in prompt
+
+
 def test_classification_label_uses_the_design_wording():
     assert classification_label(0, {0: "NEGATIVE"}) == "0 (negative review)"
     assert classification_label(1, {"1": "POSITIVE"}) == "1 (positive review)"
@@ -55,6 +63,10 @@ def test_default_model_directories():
     assert config.bert.base == ROOT / "models" / "bert-base-sst2-teacher"
     assert config.qwen.compressed == ROOT / "models" / "gkd-qwen2-0.5b-xlsum"
     assert config.qwen.base == ROOT / "models" / "qwen2-1.5b-teacher"
+    assert config.pruning.base == ROOT / "models" / "gemma-baseline"
+    assert config.pruning.compressed == ROOT / "models" / "best_pruned_model"
+    assert config.quantization.base == ROOT / "models" / "gemma-baseline"
+    assert config.quantization.compressed == ROOT / "models" / "gemma-hqq-xlsum"
 
 
 def test_report_rows_differ_by_pair():
@@ -67,6 +79,12 @@ def test_report_rows_differ_by_pair():
     assert [row["name"] for row in report["qwen"]] == ["RaugeL"]
     assert report["qwen"][0]["base"] == "—"
     assert report["qwen"][0]["compressed"] == "—"
+    assert [row["name"] for row in report["pruning"]] == ["Loss", "Size (MB)"]
+    assert report["pruning"][0]["base"] == "3.762"
+    assert report["pruning"][1]["compressed"] == "983.22"
+    assert [row["name"] for row in report["quantization"]] == ["Loss", "ROUGE-L"]
+    assert report["quantization"][0]["compressed"] == "3.8612"
+    assert report["quantization"][1]["base"] == "0.0914"
 
 
 def test_a_readme_is_not_a_weight_folder(tmp_path):
@@ -91,6 +109,8 @@ def test_missing_weights_are_a_message(tmp_path):
     empty = config.__class__(
         bert=config.bert.__class__(tmp_path / "teacher", tmp_path / "student"),
         qwen=config.qwen,
+        pruning=config.pruning,
+        quantization=config.quantization,
         metrics=config.metrics,
         max_new_tokens=config.max_new_tokens,
         max_prompt_tokens=config.max_prompt_tokens,
@@ -122,7 +142,11 @@ def test_pages_and_the_unwired_send_path():
         assert "BERT" in distillation and "Qwen" in distillation
         assert "Зимовий ярмарок у Львові" in distillation
         assert "Qwen" not in pruning
-        assert "Pruning" in pruning
+        assert "Gemma" in pruning
+        assert "Зимовий ярмарок у Львові" in pruning
+        quantization = _get(httpd, "/method/quantization")
+        assert "Gemma" in quantization
+        assert "ROUGE-L" in quantization
         assert cat.startswith(b"\x89PNG")
 
         empty = _post(httpd, {"pair": "bert", "text": "   "})
@@ -136,13 +160,43 @@ def test_pages_and_the_unwired_send_path():
 
 def test_distillation_boot_switches_examples_and_metrics():
     boot = client_boot("distillation")
-    stub = client_boot("quantization")
+    pruning = client_boot("pruning")
 
     assert boot["wired"] is True
     assert set(boot["pairs"]) == {"bert", "qwen"}
     assert boot["metrics"]["bert"][0]["name"] == "Loss"
-    assert stub["wired"] is False
-    assert list(stub["pairs"]) == ["quantization"]
+    assert pruning["wired"] is True
+    assert pruning["pairs"]["pruning"]["label"] == "Gemma"
+    assert pruning["metrics"]["pruning"][1]["name"] == "Size (MB)"
+
+
+def test_a_quantized_checkpoint_counts_as_weights(tmp_path):
+    folder = tmp_path / "hqq"
+    folder.mkdir()
+    (folder / "config.json").write_text("{}", encoding="utf-8")
+    (folder / "qmodel.pt").write_bytes(b"")
+
+    assert weights_present(folder) is True
+
+
+def test_missing_gemma_weights_are_a_message(tmp_path):
+    config = load_demo_config()
+    empty = config.__class__(
+        bert=config.bert,
+        qwen=config.qwen,
+        pruning=config.pruning.__class__(tmp_path / "base", tmp_path / "pruned"),
+        quantization=config.quantization,
+        metrics=config.metrics,
+        max_new_tokens=config.max_new_tokens,
+        max_prompt_tokens=config.max_prompt_tokens,
+    )
+
+    result = run_pair("pruning", "Короткий текст.", config=empty)
+
+    assert result["error"]
+    assert "gemma-baseline" not in result["error"]
+    assert "base" in result["error"]
+    assert "Traceback" not in result["error"]
 
 
 def _get_bytes(httpd, path: str) -> bytes:

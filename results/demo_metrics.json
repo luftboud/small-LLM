@@ -9,5 +9,17 @@
     "rows": [
       {"name": "RaugeL", "base": null, "compressed": null}
     ]
+  },
+  "pruning": {
+    "rows": [
+      {"name": "Loss", "base": "3.762", "compressed": "4.828"},
+      {"name": "Size (MB)", "base": "1072.39", "compressed": "983.22"}
+    ]
+  },
+  "quantization": {
+    "rows": [
+      {"name": "Loss", "base": "3.8468", "compressed": "3.8612"},
+      {"name": "ROUGE-L", "base": "0.0914", "compressed": "0.0884"}
+    ]
   }
 }
